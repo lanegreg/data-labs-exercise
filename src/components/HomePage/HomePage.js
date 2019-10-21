@@ -17,12 +17,12 @@ export const HomePage = () => {
   return (
     <>
       <AppBar />
-      <HeroImage className={classes.root}>
-        <Typography variant="h1" className={classes.h1}>
+      <HeroImage>
+        <Typography className={classes.h1} variant="h1">
           Upgrade Your Image
         </Typography>
         <Divider className={classes.ledge}></Divider>
-        <Typography variant="h2" className={classes.h2}>
+        <Typography className={classes.h2} variant="h2">
           Receive secret offers up to 40% off the best cosmetic products.
         </Typography>
         <Button onClick={toggleDialogState} className={classes.button}>
