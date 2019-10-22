@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { withGreenButtonStyles } from './styles'
+import useAuthUserContext from '../../common/useAuthUserContext'
+import { registerUser, signinUser } from '../../api/service'
 import useForm from 'react-hook-form'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -10,79 +12,78 @@ import Typography from '@material-ui/core/Typography'
 import Snackbar from '@material-ui/core/Snackbar'
 import Button from '@material-ui/core/Button'
 import Link from '@material-ui/core/Link'
-import { useAuthUserContext } from './useAuthUserContext'
-import { registerUser, signinUser } from '../../api/service'
+
+const PASSWORD_LENGTH = 6
 
 const AuthUserDialog = () => {
   const GreenButton = withGreenButtonStyles(Button)
   const {
     dialog,
-    setUser,
+    setUserContext,
     toggleDialogState,
     toggleDialogMode
   } = useAuthUserContext()
   const { handleSubmit, register, errors } = useForm()
 
-  const [message, setMessage] = useState('')
-  const [open, setOpen] = useState(false)
+  const [message, setSnackbarMessage] = useState('')
+  const [open, setSnackbarOpen] = useState(false)
 
   //#region - Handlers
-  const onRegistrationSubmit = inputVals => {
-    inputVals.username = inputVals.email.split('@')[0]
+  const onRegistrationSubmit = formValues => {
+    formValues.username = formValues.email.split('@')[0]
 
-    registerUser(inputVals)
+    registerUser(formValues)
       .then(data => {
-        if (data.status === '200') {
+        if (data.status === 200) {
           data.promise.then(json => {
-            setUser(json)
-            setMessage('Successfully registered!')
-            setOpen(true)
+            setUserContext(json)
+            setSnackbarMessage('Successfully registered!')
+            setSnackbarOpen(true)
           })
         } else {
           data.promise.then(txt => {
-            setMessage(txt)
-            setOpen(true)
+            setSnackbarMessage(txt)
+            setSnackbarOpen(true)
           })
         }
       })
       .catch(error => {
         console.error('error', error)
-        setMessage('Error while registering.')
-        setOpen(true)
+        setSnackbarMessage('Error while registering.')
+        setSnackbarOpen(true)
       })
 
     toggleDialogState()
   }
 
-  const onSigninSubmit = inputVals => {
-    signinUser(inputVals)
+  const onSigninSubmit = formValues => {
+    signinUser(formValues.username, formValues.password)
       .then(data => {
-        if (data.status === '200') {
-          console.log(data.promise)
+        if (data.status === 200) {
           data.promise.then(json => {
-            setUser(json)
-            setMessage('Successfully registered!')
-            setOpen(true)
+            setUserContext(json)
+            setSnackbarMessage('Successfully signed in!')
+            setSnackbarOpen(true)
           })
         } else {
           data.promise.then(txt => {
-            setMessage(txt)
-            setOpen(true)
+            setSnackbarMessage(txt)
+            setSnackbarOpen(true)
           })
         }
       })
       .catch(error => {
         console.error('error', error)
-        setMessage('Error while registering.')
-        setOpen(true)
+        setSnackbarMessage('Error while registering.')
+        setSnackbarOpen(true)
       })
 
     toggleDialogState()
   }
 
   const handleSnackbarClose = () => {
-    setOpen(false)
-    setMessage('')
+    setSnackbarOpen(false)
+    setSnackbarMessage('')
   }
   //#endregion - Handlers
 
@@ -155,7 +156,7 @@ const AuthUserDialog = () => {
             fullWidth
             autoComplete="on"
             inputRef={register({
-              validate: value => value.length > 7
+              validate: value => value.length >= PASSWORD_LENGTH
             })}
           />
           {errors.password && errors.password.message}
@@ -207,7 +208,7 @@ const AuthUserDialog = () => {
             fullWidth
             autoComplete="on"
             inputRef={register({
-              validate: value => value.length > 7
+              validate: value => value.length >= PASSWORD_LENGTH
             })}
           />
           {errors.password && errors.password.message}

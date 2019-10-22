@@ -10,7 +10,3 @@ export { HeroImage } from './HeroImage/HeroImage'
 export { Divider } from './Divider/Divider'
 export { AuthUserDialog } from './AuthUserDialog/AuthUserDialog'
 //#endregion - UI Components
-
-//region - Contexts
-export { useAuthUserContext } from './AuthUserDialog/useAuthUserContext'
-//endregion - Contexts

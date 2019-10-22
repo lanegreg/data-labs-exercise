@@ -2,6 +2,23 @@ import { useReducer } from 'react'
 import createContextHook from 'constate'
 
 const STORAGE_USER_KEY = 'auth_user'
+const DEFAULT_USER_DETAIL = {
+  isAuthenticated: false,
+  firstName: '',
+  lastName: '',
+  username: '',
+  email: '',
+  mobilePhone: ''
+}
+
+const userFromStorage = JSON.parse(
+  localStorage.getItem(STORAGE_USER_KEY) || JSON.stringify(DEFAULT_USER_DETAIL)
+)
+
+const initialState = {
+  user: { ...userFromStorage },
+  dialog: { ...{ isRegisterMode: true, isOpen: false } }
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -31,26 +48,8 @@ const reducer = (state, action) => {
   }
 }
 
-const useAuthUser = () => {
+const useAuthUserContext = createContextHook(() => {
   const localStorage = window.localStorage
-
-  const userFromStorage = JSON.parse(
-    localStorage.getItem(STORAGE_USER_KEY) ||
-      JSON.stringify({
-        isAuthenticated: false,
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        mobilePhone: ''
-      })
-  )
-
-  const initialState = {
-    user: { ...userFromStorage },
-    dialog: { ...{ isRegisterMode: true, isOpen: false } }
-  }
-
   const [{ user, dialog }, dispatch] = useReducer(reducer, initialState)
 
   //#region - Dispatch Actions
@@ -60,7 +59,7 @@ const useAuthUser = () => {
     dispatch({ type: 'SET_USER_AUTH', payload: { user: { isAuthenticated } } })
   }
 
-  const setUser = userDetails => {
+  const setUserContext = userDetails => {
     if (
       !userDetails ||
       !userDetails.firstName ||
@@ -75,7 +74,15 @@ const useAuthUser = () => {
 
     dispatch({
       type: 'SET_USER',
-      payload: { user }
+      payload: { user: userDetails }
+    })
+  }
+
+  const deleteUserContext = () => {
+    localStorage.removeItem(STORAGE_USER_KEY)
+    dispatch({
+      type: 'SET_USER',
+      payload: { user: DEFAULT_USER_DETAIL }
     })
   }
 
@@ -88,17 +95,15 @@ const useAuthUser = () => {
   }
   //#endregion - Dispatch Actions
 
-  // console.log('AuthUser', user)
-  // console.log('Dialog', dialog)
-
   return {
     user,
     dialog,
-    setUser,
+    setUserContext,
+    deleteUserContext,
     setUserAuth,
     toggleDialogMode,
     toggleDialogState
   }
-}
+})
 
-export const useAuthUserContext = createContextHook(useAuthUser)
+export default useAuthUserContext

@@ -2,7 +2,7 @@ import React from 'react'
 import Routes from './Routes'
 import { CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/styles'
-import { useAuthUserContext } from '../components'
+import useAuthUserContext from '../common/useAuthUserContext'
 import theme from './theme'
 
 const App = () => {

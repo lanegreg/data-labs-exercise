@@ -1,14 +1,9 @@
 import React from 'react'
 import useStyles from './styles'
+import useAuthUserContext from '../../common/useAuthUserContext'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import {
-  AppBar,
-  HeroImage,
-  Divider,
-  AuthUserDialog,
-  useAuthUserContext
-} from '..'
+import { AppBar, HeroImage, Divider, AuthUserDialog } from '..'
 
 export const HomePage = () => {
   const classes = useStyles()

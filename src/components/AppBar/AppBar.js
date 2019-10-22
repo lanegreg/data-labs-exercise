@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useStyles from './styles'
+import useAuthUserContext from '../../common/useAuthUserContext'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -19,6 +20,7 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles()
+  const { deleteUserContext } = useAuthUserContext()
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
@@ -41,6 +43,10 @@ const PrimarySearchAppBar = () => {
 
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const handleSignout = () => {
+    deleteUserContext()
   }
   //#endregion - Handlers
 
@@ -67,7 +73,7 @@ const PrimarySearchAppBar = () => {
         </RouterLink>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link underline="none" onClick={() => {}}>
+        <Link underline="none" onClick={handleSignout}>
           Sign out
         </Link>
       </MenuItem>
