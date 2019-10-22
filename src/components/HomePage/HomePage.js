@@ -26,7 +26,7 @@ export const HomePage = () => {
           Receive secret offers up to 40% off the best cosmetic products.
         </Typography>
         <Button onClick={toggleDialogState} className={classes.button}>
-          Register
+          Register Now
         </Button>
         <Typography variant="subtitle1">Discover the experience</Typography>
       </HeroImage>

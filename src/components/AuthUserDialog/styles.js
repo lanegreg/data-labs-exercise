@@ -1,5 +1,12 @@
-import { makeStyles } from '@material-ui/core'
+import { green } from '@material-ui/core/colors'
+import { withStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles()
-
-export default useStyles
+export const withGreenButtonStyles = withStyles(theme => ({
+  root: {
+    color: theme.palette.getContrastText(green[700]),
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[400]
+    }
+  }
+}))

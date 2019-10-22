@@ -11,8 +11,14 @@ const reducer = (state, action) => {
     case 'SET_USER': {
       return { ...state, ...action.payload }
     }
-    case 'SET_DIALOG_MODE': {
-      return { ...state, ...action.payload }
+    case 'TOGGLE_DIALOG_MODE': {
+      return {
+        ...state,
+        dialog: {
+          ...state.dialog,
+          isRegisterMode: !state.dialog.isRegisterMode
+        }
+      }
     }
     case 'TOGGLE_DIALOG_STATE': {
       return {
@@ -42,7 +48,7 @@ const useAuthUser = () => {
 
   const initialState = {
     user: { ...userFromStorage },
-    dialog: { ...{ mode: 'register', isOpen: false } }
+    dialog: { ...{ isRegisterMode: true, isOpen: false } }
   }
 
   const [{ user, dialog }, dispatch] = useReducer(reducer, initialState)
@@ -59,22 +65,13 @@ const useAuthUser = () => {
       !userDetails ||
       !userDetails.firstName ||
       !userDetails.lastName ||
-      !userDetails.username ||
-      !userDetails.email ||
-      !userDetails.mobilePhone
+      !userDetails.username
     )
       return
 
-    const user = {
-      isAuthenticated: true,
-      firstName: userDetails.firstName,
-      lastName: userDetails.lastName,
-      username: userDetails.username,
-      email: userDetails.email,
-      mobilePhone: userDetails.mobilePhone
-    }
-    console.log(user)
-    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user))
+    userDetails.isAuthenticated = true
+    delete userDetails.password
+    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(userDetails))
 
     dispatch({
       type: 'SET_USER',
@@ -82,11 +79,8 @@ const useAuthUser = () => {
     })
   }
 
-  const setDialogMode = mode => {
-    const modes = ['signin', 'register']
-    if (!mode || !!modes.filter(m => m === mode).length) return
-
-    dispatch({ type: 'SET_DIALOG_MODE', payload: { dialog: { mode } } })
+  const toggleDialogMode = () => {
+    dispatch({ type: 'TOGGLE_DIALOG_MODE' })
   }
 
   const toggleDialogState = () => {
@@ -94,14 +88,15 @@ const useAuthUser = () => {
   }
   //#endregion - Dispatch Actions
 
-  console.log('AuthUser', user)
-  console.log('Dialog', dialog)
+  // console.log('AuthUser', user)
+  // console.log('Dialog', dialog)
+
   return {
     user,
     dialog,
     setUser,
     setUserAuth,
-    setDialogMode,
+    toggleDialogMode,
     toggleDialogState
   }
 }

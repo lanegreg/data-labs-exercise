@@ -1,7 +1,7 @@
 const ENDPOINT =
   'https://lbhqs85mg8.execute-api.us-west-2.amazonaws.com/dev/user'
 
-export const getUser = async userDetails => {
+export const signinUser = async userDetails => {
   //#region - Guard
   if (!userDetails || !userDetails.username || !userDetails.password) return
   //#endregion - Guard
@@ -15,7 +15,11 @@ export const getUser = async userDetails => {
         'Content-Type': 'application/json'
       }
     }
-  ).then(res => res.json())
+  ).then(res => {
+    if (res.ok) return { status: res.status, promise: res.json() }
+
+    return { status: res.status, promise: res.text() }
+  })
 }
 
 export const registerUser = async userDetails => {
@@ -38,5 +42,9 @@ export const registerUser = async userDetails => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(userDetails)
-  }).then(res => res.json())
+  }).then(res => {
+    if (res.ok) return { status: res.status, promise: res.json() }
+
+    return { status: res.status, promise: res.text() }
+  })
 }

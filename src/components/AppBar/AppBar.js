@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useStyles from './styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase'
 import Badge from '@material-ui/core/Badge'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -18,8 +19,8 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles()
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -41,8 +42,9 @@ const PrimarySearchAppBar = () => {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget)
   }
-  //#endregion
+  //#endregion - Handlers
 
+  //#region - Renderers
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -63,6 +65,11 @@ const PrimarySearchAppBar = () => {
         <RouterLink to="/account" style={{ textDecoration: 'none' }}>
           My account
         </RouterLink>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link underline="none" onClick={() => {}}>
+          Sign out
+        </Link>
       </MenuItem>
     </Menu>
   )
@@ -107,6 +114,7 @@ const PrimarySearchAppBar = () => {
       </MenuItem>
     </Menu>
   )
+  //#endregion - Renderers
 
   return (
     <div className={classes.grow}>
