@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "8fc3853b-5341-42f8-8878-b9d4a71ea7c7",
+		"name": "allergan-data-labs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"tom_brady\",\n\t\"password\": \"zzzzzz\",\n\t\"firstName\": \"Tom\",\n\t\"lastName\": \"Brady\",\n\t\"mobilePhone\": \"7148764502\",\n\t\"email\": \"tom_brady@yahoo.com\"\n}"
+				},
+				"url": {
+					"raw": "https://lbhqs85mg8.execute-api.us-west-2.amazonaws.com/dev/user",
+					"protocol": "https",
+					"host": [
+						"lbhqs85mg8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": " application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://lbhqs85mg8.execute-api.us-west-2.amazonaws.com/dev/user/tom_brady/zzzzzz",
+					"protocol": "https",
+					"host": [
+						"lbhqs85mg8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"user",
+						"tom_brady",
+						"zzzzzz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": " application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://lbhqs85mg8.execute-api.us-west-2.amazonaws.com/dev/user",
+					"protocol": "https",
+					"host": [
+						"lbhqs85mg8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": " application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://lbhqs85mg8.execute-api.us-west-2.amazonaws.com/dev/user/tom_brady",
+					"protocol": "https",
+					"host": [
+						"lbhqs85mg8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"user",
+						"tom_brady"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
